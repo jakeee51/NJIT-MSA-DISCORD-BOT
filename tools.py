@@ -15,19 +15,39 @@ from config import *
 
 DB_CONN = sql.connect(DB_PATH)
 KEY = RSA.import_key(DB_SECRET.encode("ascii"), SP) # Just you try and get it :D
-
+BEN_10 = ["Heatblast", "Wildmutt", "Diamondhead", "XLR8", "Grey Matter",
+          "Four Arms", "Stinkfly", "Ripjaws", "Upgrade", "Ghostfreak",
+          "Cannonbolt", "Ditto", "Way Big", "Upchuck",
+          "Wildvine", "Alien X", "Echo Echo", "Brainstorm", "Swampfire",
+          "Humongousaur", "Jetray", "Big Chill", "Chromastone", "Goop",
+          "Spidermonkey", "Rath", "Nanomech"]
+SIKE = {'@':'a', '!': 'i', '1': 'i', '5': 's',
+        '3': 'e', '0': 'o', 'l': 'i'}
+CURSES = ["retard", "fuck", "shit", "ass",
+          "heii", "pussy", "fucker",
+          "dick", "nigger", "bitch", "nigg",
+          "damn", "prick", "nigga", "hoe",
+          "siut", "whore", "cunt", "dickhead"]
 
 # Remove a line from a file based on value
-def edit_file(file, value):
-    with open(file, 'r+') as f:
+def edit_file(file, value, exact=True):
+    with open(file, 'r+', encoding="utf-8") as f:
         lines = f.readlines()
         f.seek(0); found = False
-        for line in lines:
-            line = line.strip('\n')
-            if str(line).lower() != str(value).lower():
-                f.write(line + '\n')
-            else:
-                found = True
+        if exact == True:
+            for line in lines:
+                line = line.strip('\n')
+                if str(line).lower() != str(value).lower():
+                    f.write(line + '\n')
+                else:
+                    found = True
+        else:
+            for line in lines:
+                line = line.strip('\n')
+                if str(value).lower() not in str(line).lower() :
+                    f.write(line + '\n')
+                else:
+                    found = True
         f.truncate()
         return found
 
@@ -90,11 +110,13 @@ def sqlite_query(query, args=(), one=False):
               for idx, value in enumerate(row)) for row in cur.fetchall()]
    return (rv[0] if rv else None) if one else rv
 
+# Encrypt msg string
 def encrypt(msg):
     cipher = PKCS1_OAEP.new(KEY.publickey())
     cipher_text = cipher.encrypt(msg.encode())
     return cipher_text
 
+# Decrypt cipher text
 def decrypt(cipher_text):
     cipher = PKCS1_OAEP.new(KEY)
     decrypted_text = cipher.decrypt(cipher_text)
@@ -110,6 +132,29 @@ def get_name(addr: str) -> str:
     if result != None:
         full_name = result["full_name"]
         return decrypt(full_name)
+
+# Check if message has curse word
+def curse_check(msg: str) -> bool:
+    msg = msg.replace('l', 'i')
+    wordCheck = ''
+    for i in range(len(msg)):
+        char = msg[i]
+        if char in SIKE:
+            char = SIKE[char]
+        wordCheck += char
+        wordCheck = wordCheck.strip(' ')
+        if wordCheck in CURSES:
+            try:
+                if msg[i+1] != char or msg[i+1] != ' ':
+                    wordCheck = ''
+                    continue
+            except IndexError:
+                pass
+            return True
+    for curse in CURSES:
+        if re.search(fr"\b{curse}\b", msg):
+            return True
+    return False
 
 # Return gender based on user
 def check_gender(user):
@@ -128,6 +173,28 @@ def check_admin(msg, add_on=''):
             return True
     return False
 
+# Return random Ben 10 alien
+def ben_10(choice=''):
+    choice = choice.strip(' '); alien_form = ''
+    if choice == '':
+        idx = randint(0,28)
+        alien_form = BEN_10[idx]
+    else:
+        for alien in BEN_10:
+            if alien.lower() in choice.lower():
+                got = randint(1,3)
+                if got == 1:
+                    alien_form = alien; break
+                else:
+                    ignore = BEN_10.index(alien)
+                    idx = randint(0,26)
+                    temp = BEN_10[:ignore] + BEN_10[ignore+1:]
+                    alien_form = temp[idx]; break
+        if alien_form == '':
+            idx = randint(0,27)
+            alien_form = BEN_10[idx]
+    return alien_form
+
 # Retrieve role for those in waiting room
 def get_sibling_role(member):
     roles = member.roles; ret = None
@@ -136,18 +203,14 @@ def get_sibling_role(member):
             ret = ("Brother", role); break
         elif role.name == "Sisters Waiting Room":
             ret = ("Sister", role); break
-        elif role.name == "Pros Waiting Room":
-            ret = ("Professional", role); break
     return ret
 
 # Return sibling global object based on gender
 def get_sibling(sibling):
     if sibling == "Brother":
         return BROTHERS
-    elif sibling == "Sister":
-        return SISTERS
     else:
-        return PROS
+        return SISTERS
 
 # Return announcement channel id while listening to announcements/events
 def listen_announce(msg):

@@ -24,13 +24,24 @@ async def cmds(ctx): # Help command
     await ctx.send("__**NJIT MSA Bot Commands:**__```CSS\n" + cmds + "```")
 
 @bot.command()
-async def showroles(ctx, *args):
-    with open("role_selection.txt", 'r', encoding="utf-8") as f:
-        text = f.read()
-        await ctx.send(text)
+async def herotime(ctx, *args): # It's Ben 10!
+    choice = ''
+    if len(args) > 0:
+        choice = " ".join(args)
+    alien_form = ben_10(choice)
+    await ctx.send(ctx.author.mention + f" has transformed into **{alien_form}**!")
 
 @bot.command()
-async def addrole(ctx, *args):
+async def showroles(ctx, *args): # Show role-selection roles
+    with open("role_selection.txt", 'r', encoding="utf-8") as f:
+        text = f.read()
+        if text == '':
+            await ctx.send("`Role selections empty`")
+        else:
+            await ctx.send(text)
+
+@bot.command()
+async def addrole(ctx, *args): # Add role-selection role
     is_admin = check_admin(ctx)
     if not is_admin:
         return -1
@@ -54,7 +65,21 @@ async def addrole(ctx, *args):
     update_role_select()
     await ctx.send(f"`Role Reaction Added!`", delete_after=25)
 
-# Add user officially
+@bot.command()
+async def deleterole(ctx, *args): # Remove role-selection role
+    is_admin = check_admin(ctx)
+    if not is_admin:
+        return -1
+    if len(args) != 1:
+        await ctx.send(f"`/deleterole <emoji>`\n")
+        return 0
+    emoji = args[0]
+    if edit_file("role_selection.txt", emoji, exact=False):
+        await ctx.send(f"`Role Reaction Removed!`", delete_after=25)
+    else:
+        await ctx.send(f"`Role Reaction does not exist!`", delete_after=25)
+
+# Add user to server officially
 @bot.command()
 async def add(ctx, *args):
    is_admin = check_admin(ctx, add_on="Representative")
@@ -79,7 +104,7 @@ async def add(ctx, *args):
       else:
          await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
          await ctx.delete(delay=300)
-   else: # If you want to manually nickname user (Pros or non-G-Suite)
+   else: # If you want to manually nickname user
       user_id = re.search(r"\d{5,}", args[0])
       if user_id:
          guild = bot.get_guild(SERVER_ID)

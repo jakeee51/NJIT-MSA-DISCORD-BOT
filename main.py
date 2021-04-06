@@ -5,7 +5,7 @@ Author: David J. Morfe
 Application Name: MSA-Bot
 Functionality Purpose: An agile Discord Bot to fit any MSA's needs
 '''
-RELEASE = "v0.0.1 - 4/6/21"
+RELEASE = "v0.1.0 - 4/6/21"
 
 
 import re, os, sys, time, json, datetime
@@ -49,8 +49,7 @@ async def on_member_join(member):
 @bot.event
 async def on_raw_reaction_add(payload):
     if payload.channel_id != SISTERS.role_select and \
-       payload.channel_id != BROTHERS.role_select and \
-       payload.channel_id != PROS.role_select:
+       payload.channel_id != BROTHERS.role_select:
         return -1
     role_id = listen_role_reaction(payload.emoji, payload.channel_id)
     if role_id:
@@ -63,8 +62,7 @@ async def on_raw_reaction_add(payload):
 @bot.event
 async def on_raw_reaction_remove(payload):
     if payload.channel_id != SISTERS.role_select and \
-       payload.channel_id != BROTHERS.role_select and \
-       payload.channel_id != PROS.role_select:
+       payload.channel_id != BROTHERS.role_select:
         return -1
     role_id = listen_role_reaction(payload.emoji, payload.channel_id)
     if role_id:
@@ -82,9 +80,39 @@ async def on_raw_reaction_remove(payload):
 async def on_message(message):
     if message.author == bot.user:
         return -1;
+    if message.content == 'nu u':
+        if "Cali#6919" == str(message.author):
+            await message.channel.send("nu u!")
     if message.content.lower().startswith('/version'):
         if message.author.id in DEVS:
             await message.channel.send(f"`{RELEASE} | {LAST_MODIFIED}`")
+    if re.search("(nu nu|Nunu|nunu)", message.content): # Taha
+        if message.author.id == 496079190475538461:
+            await message.channel.send("nu nu?")
+    if "/taha" in message.content.lower(): # Taha
+        if message.author.id == 496079190475538461:
+            await message.channel.send("Yes we can")
+    if "/anas" in message.content.lower(): # Anas
+        if message.author.id == 406821958563528737:
+            await message.channel.send("knowimsayin dawg", delete_after=10)
+    if "Solo Leveling" in message.content:          
+        if message.author.id == 185842527520292874: # Omar E.
+            await message.channel.send("Yo that junk is fire :fire:", delete_after=10)
+    if "ws" == message.content:
+        await message.channel.send("Walaikumu Salam")
+    if "texas" in str(message.content).lower(): # Siraj
+        if message.author.id == 416430987241586698:
+            await message.channel.send("https://media.tenor.co/videos/c8bad30e8d9834c6543b7575c3d7bd89/mp4")
+    if "cap" in str(message.content).lower(): # Usmaan
+        if message.author.id == 397082457179947029:
+            await message.channel.send("yo that's cap'n cap'n")
+    if re.search(r"\b(retard|fuck|shit|ass|hell|pussy?|fucker|dick|nigger|bitch|nigg|damn|prick|nigga)(s|ed|er|ing|ting)?\b", str(message.content).lower()): # No Bad Language/Cussing
+        await message.channel.send("https://gyazo.com/45ad780b2d98f884f00273e3dc0db6cc", delete_after=20)
+        await message.delete(delay=1)
+    elif curse_check(str(message.content).lower()): # No Bad Language/Cussing
+        await message.channel.send("https://gyazo.com/45ad780b2d98f884f00273e3dc0db6cc", delete_after=20)
+        await message.delete(delay=1)
+
 
     # Shared Announcment System
     if listen_announce(message): # Send to alternate announcement channel
