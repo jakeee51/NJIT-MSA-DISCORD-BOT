@@ -33,6 +33,9 @@ async def herotime(ctx, *args): # It's Ben 10!
 
 @bot.command()
 async def showroles(ctx, *args): # Show role-selection roles
+    is_admin = check_admin(ctx)
+    if not is_admin:
+        return -1
     with open("role_selection.txt", 'r', encoding="utf-8") as f:
         text = f.read()
         if text == '':
