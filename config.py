@@ -44,6 +44,7 @@ SISTERS = ServerPartition("Sister", 748761869480624158,
                  **__sis_options)
 TEST_MODE = False; ENV = ENV; MSA = "NJIT"
 EMAIL = "noreply.njitmsa@gmail.com"
+VERIFY_SITE = "https://VerificationSystem.njitmsa.repl.co"
 BOT = os.getenv("BOT_SECRET", bot_pass())
 APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 SP = os.getenv("SECRET_PASS", secret_pass())
