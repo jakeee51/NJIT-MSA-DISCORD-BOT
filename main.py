@@ -5,7 +5,7 @@ Author: David J. Morfe
 Application Name: MSA-Bot
 Functionality Purpose: An agile Discord Bot to fit any MSA's needs
 '''
-RELEASE = "v0.1.0 - 4/6/21"
+RELEASE = "v0.1.0 - 4/10/21"
 
 
 import re, os, sys, time, json, datetime
@@ -136,7 +136,7 @@ async def on_message(message):
     if listen_verify(message): # Verify command
         ucid, gender = listen_verify(message)
         if not re.search(r"^[a-zA-Z]{2,4}\d{0,4}$", ucid) or \
-           not re.search(r"^-verify ", str(message.content)) or \
+           not re.search(r"^/verify ", str(message.content)) or \
            ucid == '':
             await message.channel.send("**Invalid command! Please make sure you're typing everything correctly.**", delete_after=25)
             await message.delete(delay=300)
@@ -151,7 +151,7 @@ async def on_message(message):
             temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**", delete_after=300)
             await message.delete(delay=300)
             vCode = send_email(email_addr, gender, test=TEST_MODE)
-            result = send_verify_post({"code": str(vCode)}, test=TEST_MODE)
+            result = await send_verify_post({"code": str(vCode)}, test=TEST_MODE)
             if result == '0':
                 await message.delete(); temp.delete()
             elif result == '-1':
@@ -171,6 +171,7 @@ async def on_message(message):
                         await message.author.edit(nick=str(nName))
                 except errors.Forbidden:
                     print("Success!\n", nName)
+                sibling = get_sibling(gender) # Get brother/sister object
                 channel = bot.get_channel(sibling.wait) # NJIT MSA #general
                 await channel.send(f"@here ***" + message.author.mention + "***" + f" *has joined the {MSA} MSA Discord!*")
             else:

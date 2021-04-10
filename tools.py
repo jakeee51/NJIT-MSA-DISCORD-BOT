@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, aiohttp
 import re, os, time, smtplib, hashlib, urllib.request
 import sqlite3 as sql
 from random import randint
@@ -91,16 +91,6 @@ def send_email(addr: str, gender='', test=False) -> str:
     else:
         print(sCode)
     return sCode
-
-# Send Post Request
-def send_verify_post(data={}, test=False):
-    if test:
-        return '1'
-    url = VERIFY_SITE + '/verify'
-    data_encoded = urllib.parse.urlencode(data)
-    data_encoded = data_encoded.encode("ascii")
-    resp = urllib.request.urlopen(url, data_encoded)
-    return resp.read().decode()
 
 # SQL Query Function
 def sqlite_query(query, args=(), one=False):
@@ -245,8 +235,8 @@ def listen_role_reaction(emoji, channel):
 # Parse and return email & join type based on /verify request
 def listen_verify(msg):
     if msg.channel.id == VERIFY_ID:
-        if msg.content.startswith('-verify'):
-            request = re.sub(r"-verify ", '', msg.content.lower())
+        if msg.content.startswith('/verify'):
+            request = re.sub(r"/verify ", '', msg.content.lower())
             join_type = re.search(r"(brothers?|sis(tas?|ters?))", request) or ''
             if join_type:
                 ucid = re.sub(fr"{join_type.group()}", '', request).strip(' ')
@@ -272,6 +262,18 @@ def in_general(channel_id):
         return SISTERS
     else:
         return False
+
+# Send Post Request
+async def send_verify_post(data={}, test=False):
+    if test:
+        return '1'
+    url = VERIFY_SITE + '/verify'
+    data_encoded = urllib.parse.urlencode(data)
+    data_encoded = data_encoded.encode("ascii")
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, data=data) as resp:
+            result = await resp.text()
+    return result
 
 # Constantly check for changes in verify.txt
 async def check_verify(record, msg, temp):
