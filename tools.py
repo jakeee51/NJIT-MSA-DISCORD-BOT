@@ -27,7 +27,8 @@ CURSES = ["retard", "fuck", "shit", "ass",
           "heii", "pussy", "fucker",
           "dick", "nigger", "bitch", "nigg",
           "damn", "prick", "nigga", "hoe",
-          "siut", "whore", "cunt", "dickhead"]
+          "siut", "whore", "cunt", "dickhead",
+          "isis", "taliban", "extremist", "terrorist"]
 
 # Remove a line from a file based on value
 def edit_file(file, value, exact=True):
@@ -219,7 +220,7 @@ def listen_role_reaction(emoji, channel):
     emoji = emoji.name.encode('unicode-escape')
     emote = re.search(r".+?\\", str(emoji).strip("b'\\"))
     if emote and str(emoji).lower().count('u') > 1:
-        emoji = ("\\" + emote.group().strip('\\')).encode('unicode-escape')
+        emoji = ("\\" + emote.group().strip('\\')).encode()
     for role_emoji in ROLE_EMOJIS:
         if emoji == role_emoji.encode('unicode-escape'):
             return ROLE_EMOJIS[role_emoji]
