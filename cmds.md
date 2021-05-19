@@ -2,6 +2,7 @@
 /verify        | For use in #verify for new members
 /timer         | Set a timer (type `/time 0 30` to set 0hr 30min timer)
 ws	         | Walaikumu Salam
+iA	         | Insha'Allah
 /herotime      | Benjamin Tennyson
 [Admins Only]
 /addrole	   | Add role selection (type `/addrole <emoji> <@Role>`)
