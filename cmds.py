@@ -137,9 +137,9 @@ async def add(ctx, *args):
 # Set timer command
 @bot.command()
 async def timer(ctx, *args):
-   is_a_num = re.search(r"^(\d{2,4})$", ''.join(args))
-   if is_a_num and len(args) != 2: # Make sure 2 arguments were passed
-      await ctx.send("***Invalid Command! Must include hours followed by minutes!***\n (ex: `/time 0 30`)")
+   is_not_a_num = re.search(r"^(\d{2,4})$", ''.join(args))
+   if is_not_a_num or len(args) != 2: # Make sure 2 arguments were passed
+      await ctx.send("***Invalid Command! Must include hours followed by minutes!***\n (ex: `/timer 0 30`)")
    else:
       eta = ((int(args[0]) * 60) * 60) + (int(args[1]) * 60)
       await ctx.send(f"You will be notified in **" + args[0] + "** hour(s) & **" + args[1] + "** minute(s)!")
