@@ -24,11 +24,11 @@ BEN_10 = ["Heatblast", "Wildmutt", "Diamondhead", "XLR8", "Grey Matter",
 SIKE = {'@':'a', '!': 'i', '1': 'i', '5': 's',
         '3': 'e', '0': 'o', 'l': 'i'}
 CURSES = ["retard", "fuck", "shit", "ass",
-          "heii", "pussy", "fucker",
-          "dick", "nigger", "bitch", "nigg",
-          "damn", "prick", "nigga", "hoe",
-          "siut", "whore", "cunt", "dickhead",
-          "isis", "taliban", "extremist", "terrorist"]
+          "pussy", "fucker", "dick", "nigger",
+          "bitch", "nigg", "damn", "prick",
+          "nigga", "hoe", "siut", "whore",
+          "cunt", "dickhead", "isis", "taliban",
+          "extremist", "terrorist"]
 
 # Remove a line from a file based on value
 def edit_file(file, value, exact=True):
