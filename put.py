@@ -50,7 +50,7 @@ def populate_links(conn, data_file):
             thous = str(c)[0]
             print("Number of appended records:", c)
 
-   query = "INSERT INTO Links VALUES(?,?,?)"
+   query = "INSERT OR IGNORE INTO Links VALUES(?,?,?)"
    cur.executemany(query, to_db)
    conn.commit()
    print("\nDone!\n", c, "records created!")
