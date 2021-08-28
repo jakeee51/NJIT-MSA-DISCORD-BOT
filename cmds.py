@@ -23,6 +23,24 @@ async def cmds(ctx): # Help command
         cmds = f.read()
     await ctx.send("__**NJIT MSA Bot Commands:**__```CSS\n" + cmds + "```")
 
+# Manage Bot Server
+@bot.command()
+async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command function unless you know what you're doing)
+    if len(args) == 0 or int(ctx.author.id) not in DEVS:
+        return -1
+    cmd = args[0].lower()
+    if cmd == "stop":
+        await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(1)
+        os.popen("sudo systemctl stop botd"); exit()
+    elif cmd == "restart":
+        await ctx.send(f"```{MSA} Bot restarted!```"); await asyncio.sleep(1)
+        os.popen("sudo systemctl restart botd")
+    elif cmd == "update":
+        await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
+        out = os.popen("sudo ./update_bot.sh"); print("CLI OUTPUT:", out.read())
+    else:
+        await ctx.send(f"```Error: Command does not exist!```")
+
 @bot.command()
 async def herotime(ctx, *args): # It's Ben 10!
     choice = ''
