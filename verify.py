@@ -50,7 +50,7 @@ def main():
                 sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT")
         req = request.execute()
         contacts = req.get("people", [])
-        with open("loot2.txt", 'a') as f:
+        with open("loot.txt", 'a') as f:
             for person in contacts:
                 names = person.get("names", [])
                 emails = person.get("emailAddresses", [])

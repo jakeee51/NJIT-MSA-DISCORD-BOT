@@ -1,7 +1,10 @@
-import re, time, sqlite3, hashlib
+import re, time, hashlib
 from config import DB_SECRET
 from tools import encrypt
+import sqlite3 as sql
 
+
+# Populate database.db with new data from a data text file
 def populate_links(conn, data_file):
    cur = conn.cursor()
    to_db = []
@@ -52,3 +55,9 @@ def populate_links(conn, data_file):
    conn.commit()
    print("\nDone!\n", c, "records created!")
    print("Database updated!")
+
+if __name__ == "__main__":
+   db_path = "database/database.db"
+   conn = sql.connect(db_path)
+   populate_links(conn, "loot.txt")
+   conn.close()
