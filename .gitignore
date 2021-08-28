@@ -1,4 +1,10 @@
 
+*.db
 *.pyc
 credentials.json
 token.pickle
+db.txt
+email.txt
+pub.txt
+sp.txt
+bot.txt
