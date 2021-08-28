@@ -37,8 +37,8 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
         os.popen("sudo systemctl restart botd")
     elif cmd == "update":
         if "db" in args:
-            await ctx.send(f"```{MSA} Bot database update system triggered!```")
-            os.popen("sudo ./update_db.sh"); await asyncio.sleep(1)
+            await ctx.send(f"```{MSA} Bot database update system triggered! (~ 30 minute runtime)```")
+            os.popen("sudo ./update_db.sh"); await asyncio.sleep(1) return 0
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
         out = os.popen("sudo ./update_bot.sh"); print("CLI OUTPUT:", out.read())
     else:
