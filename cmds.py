@@ -5,7 +5,7 @@ from discord import File
 from discord import Embed
 from discord import Game
 from discord import errors
-import asyncio
+import asyncio, yaml
 from config import *
 from tools import *
 
@@ -35,6 +35,10 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
     elif cmd == "restart":
         await ctx.send(f"```{MSA} Bot restarted!```"); await asyncio.sleep(1)
         os.popen("sudo systemctl restart botd")
+    elif cmd == "status":
+        with open("bot_stats.yaml") as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+            await ctx.send(f"```yaml\n{data}```")
     elif cmd == "update":
         if "db" in args:
             await ctx.send(f"```{MSA} Bot database update system triggered! (~ 30 minute runtime)```")

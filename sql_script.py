@@ -79,10 +79,10 @@ def show_data(table):
 ##print("Table deleted!")
 
 '''SELECT'''
-# show_data("Links")
+##show_data("Links")
 
 '''SHOW COLUMNS'''
-for column in show_columns('Links'):
-   print(column)
+##for column in show_columns('Links'):
+##  print(column)
 
 conn.close()

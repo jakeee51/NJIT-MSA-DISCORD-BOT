@@ -101,6 +101,13 @@ def sqlite_query(query, args=(), one=False):
               for idx, value in enumerate(row)) for row in cur.fetchall()]
    return (rv[0] if rv else None) if one else rv
 
+# Print SQL sample of records & return total records
+def get_total_records() -> int:
+   records = 0
+   for row in sqlite_query(f"SELECT * FROM Links"):
+      records += 1
+   return records
+
 # Encrypt msg string
 def encrypt(msg):
     cipher = PKCS1_OAEP.new(KEY.publickey())

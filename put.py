@@ -1,6 +1,6 @@
-import re, time, hashlib
+import re, time, hashlib, yaml
 from config import DB_SECRET
-from tools import encrypt
+from tools import encrypt, get_total_records
 import sqlite3 as sql
 
 
@@ -55,6 +55,12 @@ def populate_links(conn, data_file):
    conn.commit()
    print("\nDone!\n", c, "records created!")
    print("Database updated!")
+   with open("bot_stats.yaml") as f:
+      data = yaml.load(f, Loader=yaml.FullLoader)
+   with open("bot_stats.yaml", 'w') as f:
+      data["Database Status"] = f":green_circle: (Updated as of {time.ctime()})"
+      data["Total Records"] = get_total_records()
+      yaml.dump(data, f)
 
 if __name__ == "__main__":
    db_path = "database/database.db"

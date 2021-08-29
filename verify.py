@@ -1,5 +1,5 @@
 from __future__ import print_function
-import os.path, pickle, time
+import os.path, pickle, time, yaml
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -40,6 +40,8 @@ def main():
         readMask="names,emailAddresses",
         sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT")
     c = 0
+    with open("bot_stats.yaml") as f:
+        data = yaml.load(f, Loader=yaml.FullLoader)
     while request != None:
         if c != 0:
             request = service.people().listDirectoryPeople(
@@ -58,9 +60,13 @@ def main():
                     name = names[0].get("displayName")
                     email = emails[0].get("value")
                     f.write(f"{name}\t{email}\n")
+                    c += 1
             print(name, email)
             print(req.get("nextPageToken"))
-            c += 1
+        with open("bot_stats.yaml", 'w') as f:
+            data["Database Status"] = ":yellow_circle: (Updating)"
+            data["Total Records Retrieved"] = c
+            yaml.dump(data, f)
         time.sleep(60)
     print("Escaped with", c, "records!")
 
