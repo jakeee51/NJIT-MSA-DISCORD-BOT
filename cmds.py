@@ -5,6 +5,7 @@ from discord import File
 from discord import Embed
 from discord import Game
 from discord import errors
+from subprocess import Popen
 import asyncio, yaml
 from config import *
 from tools import *
@@ -30,10 +31,10 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
         return -1
     cmd = args[0].lower()
     if cmd == "stop":
-        await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(1)
+        await ctx.send(f"```{MSA} MSA Bot stopped!```"); await asyncio.sleep(1)
         os.popen("sudo systemctl stop botd"); exit()
     elif cmd == "restart":
-        await ctx.send(f"```{MSA} Bot restarted!```"); await asyncio.sleep(1)
+        await ctx.send(f"```{MSA} MSA Bot restarted!```"); await asyncio.sleep(1)
         os.popen("sudo systemctl restart botd")
     elif cmd == "status":
         with open("bot_stats.yaml") as f:
@@ -41,10 +42,13 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
             await ctx.send(f"```yaml\n{data}```")
     elif cmd == "update":
         if "db" in args:
-            os.popen("sudo ./update_db.sh"); await asyncio.sleep(1)
-            await ctx.send(f"```{MSA} Bot database update system triggered! (~ 30 minute runtime)```")
+            p = Popen("./update_db.sh"); await asyncio.sleep(1)
+            await ctx.send(f"```{MSA} MSA Bot database update system triggered! (~ 30 minute runtime)```")
+            while p.poll() is None:
+                time.sleep(60)
+            await ctx.send(f"```{MSA} MSA Bot database update complete!```")
             return 0
-        await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
+        await ctx.send(f"```{MSA} MSA Bot CI/CD system triggered!```"); await asyncio.sleep(1)
         out = os.popen("sudo ./update_bot.sh"); print("CLI OUTPUT:", out.read())
     else:
         await ctx.send(f"```Error: Command does not exist!```")

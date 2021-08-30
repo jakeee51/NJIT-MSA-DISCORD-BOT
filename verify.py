@@ -64,7 +64,7 @@ def main():
             print(name, email)
             print(req.get("nextPageToken"))
         with open("bot_stats.yaml", 'w') as f:
-            data["Database Status"] = ":yellow_circle: (Updating)"
+            data["Database Status"] = f":yellow_circle: (Updating as of {time.ctime()})"
             data["Total Records Retrieved"] = c
             yaml.dump(data, f)
         time.sleep(60)
