@@ -32,7 +32,7 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
     cmd = args[0].lower()
     if cmd == "stop":
         await ctx.send(f"```{MSA} MSA Bot stopped!```"); await asyncio.sleep(1)
-        os.popen("sudo systemctl stop botd"); exit()
+        os.popen("sudo systemctl stop botd"); await asyncio.sleep(1); exit()
     elif cmd == "restart":
         await ctx.send(f"```{MSA} MSA Bot restarted!```"); await asyncio.sleep(1)
         os.popen("sudo systemctl restart botd")
@@ -45,7 +45,7 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
             p = Popen("./update_db.sh"); await asyncio.sleep(1)
             await ctx.send(f"```{MSA} MSA Bot database update system triggered! (~ 30 minute runtime)```")
             while p.poll() is None:
-                time.sleep(60)
+                await asyncio.sleep(60)
             await ctx.send(f"```{MSA} MSA Bot database update complete!```")
             return 0
         await ctx.send(f"```{MSA} MSA Bot CI/CD system triggered!```"); await asyncio.sleep(1)
