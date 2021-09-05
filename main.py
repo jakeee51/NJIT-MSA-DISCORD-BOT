@@ -5,7 +5,7 @@ Author: David J. Morfe
 Application Name: MSA-Bot
 Functionality Purpose: An agile Discord Bot to fit any MSA's needs
 '''
-RELEASE = "v0.2.0 - 8/29/21"
+RELEASE = "v0.2.0 - 9/5/21"
 
 
 import re, os, sys, time, json, datetime, yaml
@@ -108,7 +108,7 @@ async def on_message(message):
     if "cap" in str(message.content).lower(): # Usmaan
         if message.author.id == 397082457179947029:
             await message.channel.send("yo that's cap'n cap'n")
-    if re.search(r"\b(retard|fuck|shit|ass|hell|pussy?|fucker|dick|nigger|bitch|nigg|damn|prick|nigga)(s|ed|er|ing|ting)?\b", str(message.content).lower()): # No Bad Language/Cussing
+    if re.search(r"\b(retard|fuck|shit|ass|pussy?|fucker|dick|nigger|bitch|nigg|damn|prick|nigga)(s|ed|er|ing|ting)?\b", str(message.content).lower()): # No Bad Language/Cussing
         await message.channel.send("https://gyazo.com/45ad780b2d98f884f00273e3dc0db6cc", delete_after=20)
         await message.delete(delay=1)
     elif curse_check(str(message.content).lower()): # No Bad Language/Cussing
