@@ -150,10 +150,16 @@ async def on_message(message):
             await message.delete(delay=300)
         else:
             email_addr = ucid.lower() + f"@{MSA}.edu".lower(); ID = message.author.id
-            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**", delete_after=300)
+            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**",
+                                              delete_after=300)
             await message.delete(delay=300)
             vCode = send_email(email_addr, gender, test=TEST_MODE)
             result = await send_verify_post({"code": str(vCode)}, test=TEST_MODE)
+
+            if result == '0':
+                vCode = send_email(email_addr, gender, test=TEST_MODE)
+                result = await send_verify_post(*args)
+
             if result == '0':
                 await message.delete(); temp.delete()
             elif result == '-1':
