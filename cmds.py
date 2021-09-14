@@ -124,6 +124,9 @@ async def add(ctx, *args):
          guild = bot.get_guild(SERVER_ID)
          member = guild.get_member(int(user_id.group()))
          sibling, rm_role = get_sibling_role(member)
+         if member.nick == None:
+             new_nick = member.name.replace(' ', '_')
+             await member.edit(nick=str(new_nick))
          if '@' in member.nick:
             await ctx.send("**Please don't leave the user's nickname as email!**", delete_after=25)
             return -1
