@@ -67,7 +67,7 @@ def main():
             data["Database Status"] = f":yellow_circle: (Updating as of {time.ctime()})"
             data["Total Records Retrieved"] = c
             yaml.dump(data, f)
-        if c > 45000:
+        if c > 50000:
             return 0
         time.sleep(60)
     print("Escaped with", c, "records!")
