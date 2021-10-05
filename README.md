@@ -1,2 +1,3 @@
 # NJIT-MSA-DISCORD-BOT
-NJIT MSA's official Discord bot source code.
+
+The New Jersey Institute of Technology Muslim Student Association's official Discord bot source code.
