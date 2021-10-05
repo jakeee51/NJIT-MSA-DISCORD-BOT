@@ -78,9 +78,14 @@ async def addrole(ctx, *args): # Add role-selection role
     is_admin = check_admin(ctx)
     if not is_admin:
         return -1
-    if len(args) == 0 or len(args[1]) > 16 and not args[1].isdigit():
+    if len(args) == 0:
         await ctx.send(f"`/addrole <emoji> <@Role>`\n"
                        "`/addrole <emoji> <@Bro-Role> <@Sis-Role>`")
+        return 0
+    else:
+        if len(args[1]) > 16 and not args[1].isdigit():
+            await ctx.send(f"Invalid command! See correct format below.\n`/addrole <emoji> <@Role>`\n"
+                           "`/addrole <emoji> <@Bro-Role> <@Sis-Role>`")
         return 0
     emoji = args[0]; role = args[1].replace("<@&", '').strip('>')
     if len(args) == 3:
