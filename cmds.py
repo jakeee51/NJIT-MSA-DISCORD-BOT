@@ -94,7 +94,7 @@ async def addrole(ctx, *args): # Add role-selection role
     else:
         extra = 0
     with open("role_selection.txt", 'r+', encoding="utf-8") as f:
-        lines = f.readlines()
+        lines = f.readlines(); emoji = emoji[0]
         entry = f"{extra} {emoji} {role}\n"
         if entry not in lines:
             f.write(entry)

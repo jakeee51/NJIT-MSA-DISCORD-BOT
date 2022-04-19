@@ -5,7 +5,7 @@ Author: David J. Morfe
 Application Name: MSA-Bot
 Functionality Purpose: An agile Discord Bot to fit any MSA's needs
 '''
-RELEASE = "v0.2.1 - 4/17/22"
+RELEASE = "v0.2.2 - 4/19/22"
 
 
 import re, os, sys, time, json, datetime, yaml
@@ -92,6 +92,9 @@ async def on_message(message):
     if "/taha" in message.content.lower(): # Taha
         if message.author.id == 496079190475538461:
             await message.channel.send("Yes we can")
+    if "/sadiq" in message.content.lower(): # Taha
+        if message.author.id == 351438119926628354:
+            await message.channel.send("Chalk Texas")
     if "/anas" in message.content.lower(): # Anas
         if message.author.id == 406821958563528737:
             await message.channel.send("knowimsayin dawg", delete_after=10)

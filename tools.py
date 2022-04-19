@@ -175,7 +175,7 @@ def check_admin(msg, add_on=''):
 def ben_10(choice=''):
     choice = choice.strip(' '); alien_form = ''
     if choice == '':
-        idx = randint(0,28)
+        idx = randint(0,27)
         alien_form = BEN_10[idx]
     else:
         for alien in BEN_10:

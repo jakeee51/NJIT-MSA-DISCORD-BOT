@@ -31,8 +31,8 @@ def update_role_select():
          elif extra != 0 and \
               emote not in SPLIT_ROLES_EMOJIS[BROTHERS.role_select] or \
               emote not in SPLIT_ROLES_EMOJIS[SISTERS.role_select]:
-            SPLIT_ROLES_EMOJIS[BROTHERS.role_select][emote] = int(role)
-            SPLIT_ROLES_EMOJIS[SISTERS.role_select][emote] = int(extra)
+            SPLIT_ROLES_EMOJIS[BROTHERS.role_select][emote[0]] = int(role)
+            SPLIT_ROLES_EMOJIS[SISTERS.role_select][emote[0]] = int(extra)
 
 
 # Set all global variables
