@@ -63,7 +63,8 @@ ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
 SPLIT_ROLES_EMOJIS = {BROTHERS.role_select: {},
                       SISTERS.role_select: {}}
 DEVS = [233691753922691072, 423584353055146004, 351438119926628354,
-        496079190475538461, 397082457179947029]
+        496079190475538461, 397082457179947029, 761123575021174784,
+        326389855712051201]
 os.chdir(CWD) # Return to original directory
 update_role_select() # Update the role-selection listener upon startup
 
